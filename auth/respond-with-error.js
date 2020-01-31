@@ -3,7 +3,7 @@
 module.exports = respondWithError
 
 function respondWithError (error) {
-  return (res, req) => {
+  return (req, res) => {
 
     res
     .status (500)

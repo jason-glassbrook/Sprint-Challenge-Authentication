@@ -3,7 +3,7 @@
 module.exports = respondWithInvalidCredentials
 
 function respondWithInvalidCredentials (error) {
-  return (res, req) => {
+  return (req, res) => {
 
     res
     .status (401)

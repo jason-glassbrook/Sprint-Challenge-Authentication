@@ -3,7 +3,7 @@
 module.exports = respondWithWelcome
 
 function respondWithWelcome (user, token) {
-  return (res, req) => {
+  return (req, res) => {
 
     res
     .status (200)

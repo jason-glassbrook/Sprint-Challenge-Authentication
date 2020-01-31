@@ -3,7 +3,7 @@
 module.exports = respondWithBadRequest
 
 function respondWithBadRequest () {
-  return (res, req) => {
+  return (req, res) => {
 
     res
     .status (400)
