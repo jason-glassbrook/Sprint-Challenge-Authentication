@@ -138,7 +138,8 @@ describe ('server', () => {
         .post ('/api/auth/register')
         .send (data.good)
         .then ((re) => {
-          expect (re.status) .toEqual (200)
+          console.log (re.status)
+          console.log (re.body)
         })
       })
 
@@ -219,6 +220,96 @@ describe ('server', () => {
       })
 
     })
+
+    /***************************************
+      JOKES
+    ***************************************/
+
+    describe ('GET /api/jokes', () => {
+
+      let token
+
+      beforeAll (async () => {
+        await db ('users') .truncate ()
+
+        request (server)
+        .post ('/api/auth/register')
+        .send (data.good)
+        .then ((re) => {
+          console.log (re.status)
+          console.log (re.body)
+        })
+      })
+
+      afterAll (async () => {
+        await db ('users') .truncate ()
+      })
+
+      /// BAD REQUESTS ARE BAD? ///
+
+      describe (`what happens when request does not have headers.authorization`, () => {
+
+        /// STATUS CODE? ///
+
+        test (`responds with 401 INVALID CREDENTIALS`, () => {
+
+          return (
+            request (server)
+            .get ('/api/jokes')
+            .send ()
+            .then ((re) => {
+              expect (re.status) .toEqual (401)
+            })
+          )
+
+        })
+
+        /// RESPONSE TYPE? ///
+
+        test (`responds with JSON body`, () => {
+
+          return (
+            request (server)
+            .get ('/api/jokes')
+            .send ()
+            .then ((res) => {
+              expect (res.type).toMatch (/json/i)
+            })
+          )
+
+        })
+
+      })
+
+      /// GOOD REQUESTS ARE GOOD? ///
+
+      describe (`what happens when request has username, password`, () => {
+
+        /// STATUS CODE? ///
+
+        test (`responds with 200 OK`, () => {
+
+          return (
+            request (server)
+            .get ('/api/jokes')
+            .set ('Authorization', token)
+            .send ()
+            .then ((re) => {
+              expect (re.status) .toEqual (200)
+            })
+          )
+
+        })
+
+        /// RESPONSE TYPE? ///
+
+        test (`responds with JSON body`, () => {
+
+          return (
+            request (server)
+            .get ('/api/jokes')
+            .set ('Authorization', token)
+            .send ()
             .then ((res) => {
               expect (res.type).toMatch (/json/i)
             })
