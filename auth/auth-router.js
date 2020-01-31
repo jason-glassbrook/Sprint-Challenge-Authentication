@@ -7,6 +7,7 @@ const { jwtSecret } = require ('../config/secrets.js')
 const Users = require ('../users/users-model.js')
 
 router.post ('/register', (req, res) => {
+
   // implement registration
 
   const { username, password } = req.body
@@ -32,10 +33,16 @@ router.post ('/register', (req, res) => {
 
   })
 
+  return
+
 })
 
 router.post ('/login', (req, res) => {
+
   // implement login
+
+  return
+
 })
 
 module.exports = router
