@@ -36,6 +36,94 @@ describe ('server', () => {
       },
     }
 
+    /***************************************
+      USER REGISTRATION
+    ***************************************/
+
+   describe ('POST /api/auth/register', () => {
+
+    beforeEach (async () => {
+      await db ('users') .truncate ()
+    })
+
+    afterAll (async () => {
+      await db ('users') .truncate ()
+    })
+
+    /// BAD REQUESTS ARE BAD? ///
+
+    describe (`what happens when request does not have username, password`, () => {
+
+      /// STATUS CODE? ///
+
+      test (`responds with 400 BAD REQUEST`, () => {
+
+        return (
+          request (server)
+          .post ('/api/auth/register')
+          .send (data.bad)
+          .then ((ro) => {
+            expect (ro.status) .toEqual (400)
+          })
+        )
+
+      })
+
+      /// RESPONSE TYPE? ///
+
+      test (`responds with JSON body`, () => {
+
+        return (
+          request (server)
+          .post ('/api/auth/register')
+          .send (data.bad)
+          .then ((res) => {
+            expect (res.type).toMatch (/json/i)
+          })
+        )
+
+      })
+
+    })
+
+    /// GOOD REQUESTS ARE GOOD? ///
+
+    describe (`what happens when request has username, password`, () => {
+
+      /// STATUS CODE? ///
+
+      test (`responds with 200 OK`, () => {
+
+        return (
+          request (server)
+          .post ('/api/auth/register')
+          .send (data.good)
+          .then ((ro) => {
+            expect (ro.status) .toEqual (200)
+          })
+        )
+
+      })
+
+      /// RESPONSE TYPE? ///
+
+      test (`responds with JSON body`, () => {
+
+        return (
+          request (server)
+          .post ('/api/auth/register')
+          .send (data.good)
+          .then ((res) => {
+            expect (res.type).toMatch (/json/i)
+          })
+        )
+
+      })
+
+    })
+
+  })
+
   }
 
 })
