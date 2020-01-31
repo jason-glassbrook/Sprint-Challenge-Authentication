@@ -38,13 +38,21 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
--   [ ] What is the purpose of using _sessions_?
+-   [x] What is the purpose of using _sessions_?
 
--   [ ] What does bcrypt do to help us store passwords in a secure manner.
+    > Sessions allow the server to keep track of and associate information with the server's users, even when those user's aren't authenticated. The information could include things like user IDs, usernames, authorizations, settings, etc.
 
--   [ ] What does bcrypt do to slow down attackers?
+-   [x] What does `bcrypt` do to help us store passwords in a secure manner.
 
--   [ ] What are the three parts of the JSON Web Token?
+    > `bcrypt` passes a password through a hashing function to produce a hashed and salted password (hash). This new version of the password _cannot_ be retrieved, so it is _secure_. `bcrypt` allows comparison of a password (candidate password) by using the same hashing function to produce a hashed and salted version of the candidate password (candidate hash), and then the original hash and candidate hash are compared. If these hashes match, then the passwords match.
+
+-   [x] What does `bcrypt` do to slow down attackers?
+
+    > `bcrypt` adds a "timing" (`cost`) component to the hashing process, where passwords are recursively hashed 2<sup>`cost`</sup> times. The larger the `cost`, the more time it takes per comparison. This slows down potential attackers.
+
+-   [x] What are the three parts of the JSON Web Token?
+
+    > A _JWT_ is composed of a _header_, a _payload_, and a _signature_.
 
 ## Minimum Viable Product
 
