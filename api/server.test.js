@@ -7,7 +7,7 @@ describe ('server', () => {
   /// STUFF HAPPENS AT ALL ///
   test (`runs tests`, () => {
 
-    expect (true) .toBe (true)
+    expect (true).toBe (true)
 
   })
 
@@ -16,7 +16,7 @@ describe ('server', () => {
 
     test (`needs to be testing`, () => {
 
-      expect (process.env.SERVER_ENV) .toEqual ('testing')
+      expect (process.env.SERVER_ENV).toEqual ('testing')
 
     })
 
@@ -31,7 +31,7 @@ describe ('server', () => {
         'wrong' : `this isn't right`,
       },
       'good' : {
-        'username' : `qwerty2`,
+        'username' : `qwerty`,
         'password' : `qwerty123!`,
       },
     }
@@ -43,11 +43,11 @@ describe ('server', () => {
     describe ('POST /api/auth/register', async () => {
 
       beforeEach (async () => {
-        await db ('users') .truncate ()
+        await db ('users').truncate ()
       })
 
       afterAll (async () => {
-        await db ('users') .truncate ()
+        await db ('users').truncate ()
       })
 
       /// BAD REQUESTS ARE BAD? ///
@@ -131,7 +131,7 @@ describe ('server', () => {
     describe ('POST /api/auth/login', async () => {
 
       beforeAll (async () => {
-        await db ('users') .truncate ()
+        await db ('users').truncate ()
 
         await request (server)
         .post ('/api/auth/register')
@@ -143,7 +143,7 @@ describe ('server', () => {
       })
 
       afterAll (async () => {
-        await db ('users') .truncate ()
+        await db ('users').truncate ()
       })
 
       /// BAD REQUESTS ARE BAD? ///
@@ -229,7 +229,7 @@ describe ('server', () => {
       let token
 
       beforeAll (async () => {
-        await db ('users') .truncate ()
+        await db ('users').truncate ()
 
         await request (server)
         .post ('/api/auth/register')
@@ -241,7 +241,7 @@ describe ('server', () => {
       })
 
       afterAll (async () => {
-        await db ('users') .truncate ()
+        await db ('users').truncate ()
       })
 
       /// BAD REQUESTS ARE BAD? ///
