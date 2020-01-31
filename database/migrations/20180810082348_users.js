@@ -10,7 +10,7 @@ exports.up = function (knex) {
     .unique ()
 
     table
-    .string ('password', 255)
+    .string ('hash', 255)
     .notNullable ()
 
   })
