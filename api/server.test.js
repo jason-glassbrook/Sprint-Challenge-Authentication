@@ -1,7 +1,6 @@
 const request = require ('supertest')
 const server = require ('./server')
 const db = require ('../database/dbConfig')
-const Users = require ('../users/users-model')
 
 describe ('server', () => {
 
@@ -32,7 +31,7 @@ describe ('server', () => {
         'wrong' : `this isn't right`,
       },
       'good' : {
-        'username' : `qwerty`,
+        'username' : `qwerty2`,
         'password' : `qwerty123!`,
       },
     }
@@ -41,7 +40,7 @@ describe ('server', () => {
       USER REGISTRATION
     ***************************************/
 
-    describe ('POST /api/auth/register', () => {
+    describe ('POST /api/auth/register', async () => {
 
       beforeEach (async () => {
         await db ('users') .truncate ()
@@ -53,14 +52,14 @@ describe ('server', () => {
 
       /// BAD REQUESTS ARE BAD? ///
 
-      describe (`what happens when request does not have username, password`, () => {
+      describe (`what happens when request does not have username, password`, async () => {
 
         /// STATUS CODE? ///
 
-        test (`responds with 400 BAD REQUEST`, () => {
+        test (`responds with 400 BAD REQUEST`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/register')
             .send (data.bad)
             .then ((re) => {
@@ -72,10 +71,10 @@ describe ('server', () => {
 
         /// RESPONSE TYPE? ///
 
-        test (`responds with JSON body`, () => {
+        test (`responds with JSON body`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/register')
             .send (data.bad)
             .then ((re) => {
@@ -89,14 +88,14 @@ describe ('server', () => {
 
       /// GOOD REQUESTS ARE GOOD? ///
 
-      describe (`what happens when request has username, password`, () => {
+      describe (`what happens when request has username, password`, async () => {
 
         /// STATUS CODE? ///
 
-        test (`responds with 200 OK`, () => {
+        test (`responds with 200 OK`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/register')
             .send (data.good)
             .then ((re) => {
@@ -108,10 +107,10 @@ describe ('server', () => {
 
         /// RESPONSE TYPE? ///
 
-        test (`responds with JSON body`, () => {
+        test (`responds with JSON body`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/register')
             .send (data.good)
             .then ((re) => {
@@ -129,12 +128,12 @@ describe ('server', () => {
       USER LOGIN
     ***************************************/
 
-    describe ('POST /api/auth/login', () => {
+    describe ('POST /api/auth/login', async () => {
 
       beforeAll (async () => {
         await db ('users') .truncate ()
 
-        request (server)
+        await request (server)
         .post ('/api/auth/register')
         .send (data.good)
         .then ((re) => {
@@ -149,14 +148,14 @@ describe ('server', () => {
 
       /// BAD REQUESTS ARE BAD? ///
 
-      describe (`what happens when request does not have username, password`, () => {
+      describe (`what happens when request does not have username, password`, async () => {
 
         /// STATUS CODE? ///
 
-        test (`responds with 400 BAD REQUEST`, () => {
+        test (`responds with 400 BAD REQUEST`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/login')
             .send (data.bad)
             .then ((re) => {
@@ -168,10 +167,10 @@ describe ('server', () => {
 
         /// RESPONSE TYPE? ///
 
-        test (`responds with JSON body`, () => {
+        test (`responds with JSON body`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/login')
             .send (data.bad)
             .then ((re) => {
@@ -185,14 +184,14 @@ describe ('server', () => {
 
       /// GOOD REQUESTS ARE GOOD? ///
 
-      describe (`what happens when request has username, password`, () => {
+      describe (`what happens when request has username, password`, async () => {
 
         /// STATUS CODE? ///
 
-        test (`responds with 200 OK`, () => {
+        test (`responds with 200 OK`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/login')
             .send (data.good)
             .then ((re) => {
@@ -204,10 +203,10 @@ describe ('server', () => {
 
         /// RESPONSE TYPE? ///
 
-        test (`responds with JSON body`, () => {
+        test (`responds with JSON body`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .post ('/api/auth/login')
             .send (data.good)
             .then ((re) => {
@@ -225,14 +224,14 @@ describe ('server', () => {
       JOKES
     ***************************************/
 
-    describe ('GET /api/jokes', () => {
+    describe ('GET /api/jokes', async () => {
 
       let token
 
       beforeAll (async () => {
         await db ('users') .truncate ()
 
-        request (server)
+        await request (server)
         .post ('/api/auth/register')
         .send (data.good)
         .then ((re) => {
@@ -247,14 +246,14 @@ describe ('server', () => {
 
       /// BAD REQUESTS ARE BAD? ///
 
-      describe (`what happens when request does not have headers.authorization`, () => {
+      describe (`what happens when request does not have headers.authorization`, async () => {
 
         /// STATUS CODE? ///
 
-        test (`responds with 401 INVALID CREDENTIALS`, () => {
+        test (`responds with 401 INVALID CREDENTIALS`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .get ('/api/jokes')
             .send ()
             .then ((re) => {
@@ -266,10 +265,10 @@ describe ('server', () => {
 
         /// RESPONSE TYPE? ///
 
-        test (`responds with JSON body`, () => {
+        test (`responds with JSON body`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .get ('/api/jokes')
             .send ()
             .then ((res) => {
@@ -283,14 +282,14 @@ describe ('server', () => {
 
       /// GOOD REQUESTS ARE GOOD? ///
 
-      describe (`what happens when request has username, password`, () => {
+      describe (`what happens when request has username, password`, async () => {
 
         /// STATUS CODE? ///
 
-        test (`responds with 200 OK`, () => {
+        test (`responds with 200 OK`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .get ('/api/jokes')
             .set ('Authorization', token)
             .send ()
@@ -303,10 +302,10 @@ describe ('server', () => {
 
         /// RESPONSE TYPE? ///
 
-        test (`responds with JSON body`, () => {
+        test (`responds with JSON body`, async () => {
 
           return (
-            request (server)
+            await request (server)
             .get ('/api/jokes')
             .set ('Authorization', token)
             .send ()
