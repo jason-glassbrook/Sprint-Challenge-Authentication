@@ -3,6 +3,11 @@ const router = require ('express').Router ()
 const bcrypt = require ('bcryptjs')
 const signToken = require ('./signToken')
 
+const respondWithError = require ('./respond-with-error')
+const respondWithBadRequest = require ('./respond-with-bad-request')
+const respondWithInvalidCredentials = require ('./respond-with-invalid-credentials')
+const respondWithWelcome = require ('./respond-with-welcome')
+
 const Users = require ('../users/users-model.js')
 
 router.post ('/register', (req, res) => {
@@ -11,26 +16,35 @@ router.post ('/register', (req, res) => {
 
   const { username, password } = req.body
 
-  const user = {
-    username,
-    hash : bcrypt.hashSync (password, 10)
+  if (username && password) {
+
+    const data = {
+      username,
+      hash : bcrypt.hashSync (password, 10)
+    }
+
+    Users.push (data)
+    .then ((user) => {
+
+      const token = signToken (user)
+      respondWithWelcome ({
+        _id : user._id,
+        username : user.username,
+      }, token) (req, res)
+
+    })
+    .catch ((error) => {
+
+      respondWithError (error) (req, res)
+
+    })
+
   }
+  else {
 
-  Users.push (user)
-  .then ((record) => {
+    respondWithBadRequest () (req, res)
 
-    res
-    .status (201)
-    .json (record)
-
-  })
-  .catch ((error) => {
-
-    res
-    .status (500)
-    .json (error)
-
-  })
+  }
 
   return
 
@@ -42,40 +56,39 @@ router.post ('/login', (req, res) => {
 
   const { username, password } = req.body
 
-  Users.findBy ({ username }, '*')
-  .then (([ user ]) => {
+  if (username && password) {
 
-    if (user && bcrypt.compareSync (password, user.hash)) {
+    Users.findBy ({ username }, '*')
+    .then (([ user ]) => {
 
-      const token = signToken (user)
+      if (user && bcrypt.compareSync (password, user.hash)) {
 
-      res
-      .status (200)
-      .json ({
-        message : `Welcome, ${user.username}. Take this.`,
-        token,
-      })
+        const token = signToken (user)
+        respondWithWelcome ({
+          _id : user._id,
+          username : user.username,
+        }, token) (req, res)
 
-    }
-    else {
+      }
+      else {
 
-      res
-      .status (401)
-      .json ({
-        error : {
-          message : `invalid credentials`,
-        },
-      })
-    }
+        respondWithInvalidCredentials () (req, res)
 
-  })
-  .catch ((error) => {
+      }
 
-    res
-    .status (500)
-    .json (error)
+    })
+    .catch ((error) => {
 
-  })
+      respondWithError (error) (req, res)
+
+    })
+
+  }
+  else {
+
+    respondWithBadRequest () (req, res)
+
+  }
 
   return
 
