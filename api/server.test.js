@@ -136,10 +136,7 @@ describe ('server', () => {
         await request (server)
         .post ('/api/auth/register')
         .send (data.good)
-        .then ((re) => {
-          console.log (re.status)
-          console.log (re.body)
-        })
+        .then ((re) => {})
       })
 
       afterAll (async () => {
@@ -235,8 +232,7 @@ describe ('server', () => {
         .post ('/api/auth/register')
         .send (data.good)
         .then ((re) => {
-          console.log (re.status)
-          console.log (re.body)
+          token = re.body.token
         })
       })
 
