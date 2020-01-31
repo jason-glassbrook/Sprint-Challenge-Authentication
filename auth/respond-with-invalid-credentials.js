@@ -2,7 +2,7 @@
 
 module.exports = respondWithInvalidCredentials
 
-function respondWithInvalidCredentials (error) {
+function respondWithInvalidCredentials () {
   return (req, res) => {
 
     res
