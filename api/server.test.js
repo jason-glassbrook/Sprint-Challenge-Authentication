@@ -63,8 +63,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/register')
             .send (data.bad)
-            .then ((ro) => {
-              expect (ro.status) .toEqual (400)
+            .then ((re) => {
+              expect (re.status) .toEqual (400)
             })
           )
 
@@ -78,8 +78,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/register')
             .send (data.bad)
-            .then ((res) => {
-              expect (res.type).toMatch (/json/i)
+            .then ((re) => {
+              expect (re.type).toMatch (/json/i)
             })
           )
 
@@ -99,8 +99,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/register')
             .send (data.good)
-            .then ((ro) => {
-              expect (ro.status) .toEqual (200)
+            .then ((re) => {
+              expect (re.status) .toEqual (200)
             })
           )
 
@@ -114,8 +114,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/register')
             .send (data.good)
-            .then ((res) => {
-              expect (res.type).toMatch (/json/i)
+            .then ((re) => {
+              expect (re.type).toMatch (/json/i)
             })
           )
 
@@ -137,8 +137,8 @@ describe ('server', () => {
         request (server)
         .post ('/api/auth/register')
         .send (data.good)
-        .then ((ro) => {
-          expect (ro.status) .toEqual (200)
+        .then ((re) => {
+          expect (re.status) .toEqual (200)
         })
       })
 
@@ -158,8 +158,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/login')
             .send (data.bad)
-            .then ((ro) => {
-              expect (ro.status) .toEqual (400)
+            .then ((re) => {
+              expect (re.status) .toEqual (400)
             })
           )
 
@@ -173,8 +173,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/login')
             .send (data.bad)
-            .then ((res) => {
-              expect (res.type).toMatch (/json/i)
+            .then ((re) => {
+              expect (re.type).toMatch (/json/i)
             })
           )
 
@@ -194,8 +194,8 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/login')
             .send (data.good)
-            .then ((ro) => {
-              expect (ro.status) .toEqual (200)
+            .then ((re) => {
+              expect (re.status) .toEqual (200)
             })
           )
 
@@ -209,6 +209,16 @@ describe ('server', () => {
             request (server)
             .post ('/api/auth/login')
             .send (data.good)
+            .then ((re) => {
+              expect (re.type).toMatch (/json/i)
+            })
+          )
+
+        })
+
+      })
+
+    })
             .then ((res) => {
               expect (res.type).toMatch (/json/i)
             })
