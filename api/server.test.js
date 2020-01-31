@@ -1,6 +1,7 @@
 const request = require ('supertest')
 const server = require ('./server')
 const db = require ('../database/dbConfig')
+const Users = require ('../users/users-model')
 
 describe ('server', () => {
 
@@ -133,7 +134,12 @@ describe ('server', () => {
       beforeAll (async () => {
         await db ('users') .truncate ()
 
-        await db
+        request (server)
+        .post ('/api/auth/register')
+        .send (data.good)
+        .then ((ro) => {
+          expect (ro.status) .toEqual (200)
+        })
       })
 
       afterAll (async () => {
