@@ -9,6 +9,7 @@ function respondWithWelcome (user, token) {
     .status (200)
     .json ({
       'message' : `Welcome, ${user.username}. Here... Take this.`,
+      user,
       token,
     })
 
