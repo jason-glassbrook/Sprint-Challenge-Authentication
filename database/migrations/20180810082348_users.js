@@ -1,15 +1,21 @@
-exports.up = function(knex) {
-  return knex.schema.createTable('users', users => {
-    users.increments();
+exports.up = function (knex) {
+  return knex.schema.createTable ('users', table => {
 
-    users
-      .string('username', 255)
-      .notNullable()
-      .unique();
-    users.string('password', 255).notNullable();
-  });
-};
+    table
+    .increments ('_id')
 
-exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('users');
-};
+    table
+    .string ('username', 255)
+    .notNullable ()
+    .unique ()
+
+    table
+    .string ('hash', 255)
+    .notNullable ()
+
+  })
+}
+
+exports.down = function (knex) {
+  return knex.schema.dropTableIfExists ('users')
+}
